@@ -16,7 +16,7 @@ const ServerClusterFork = require("./server/server")
 const router = require("./routes/router")
 
 //setting port
-app.set("port", process.env.PORT|| process.env.YOUR_PORT)
+app.set("port", process.env.PORT || process.env.YOUR_PORT)
 app.set("views", path.join(__dirname, "public", "views"))
 app.set("view engine", "ejs")
 
