@@ -4,19 +4,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EntregaProyectoFinal</title>
+    <title>Perfil</title>
     <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css">
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </head>
 <body>
 <%- include('../partials/navbar'); %>
-<h3>hello world</h3>
-<% users.forEach( e => {%>
-    <p><%= e.name%></p>    
-    <p><%= e.email%></p>    
-    <p><%= e.number%></p>    
-    <img src="../images/<%=e.photo.filename%>" alt="fotoUsuario">    
-<% }) %>
+    <% if(user){ %>
+    <% console.log(user[0])%> 
+    <h1>Bienvenido <%=user[0].name%></h1>
+    <p><%= console.log(user) %></p>  
+    <p><%= user[0].name %></p>
+    <p><%= user[0].email %></p>  
+    <p><%= user[0].years %></p> 
+    <p><%= user[0].address %></p> 
+    <p><%= user[0].phoneNumber%></p>  
+    <img src="../images/<%= user[0].photo.filename%>" alt="foto perfil de<%=user[0].name%>">
+<% } %>
 </body>
 </html>

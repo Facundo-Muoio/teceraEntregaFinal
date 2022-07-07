@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.min.css">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</head>
+<body>
+<%- include('../partials/navbar'); %>
+<div class="container mt-5 mx-auto w-25">
+    <form action="/registro" method="POST" enctype="multipart/form-data" class="bg-primary p-3 border-rounded-2 rounded">
+        <div class="form-group">
+            <label for="name" class="form-label mt-4 text-white">NOMBRE</label>
+            <input type="text" name="name" class="form-control" id="name" placeholder="Juan Eduardo Milito" required>
+        </div>
+        <div class="form-group">
+            <label for="addres" class="form-label mt-4 text-white">DIRECCION</label>
+            <input type="string" name="address" class="form-control" id="address" placeholder="Colon 1500, depto 4 C" required>
+        </div>
+        <div class="form-group">
+            <label for="years" class="form-label mt-4 text-white">EDAD</label>
+            <input type="string" name="years" class="form-control" id="years" placeholder="25" required>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber" class="form-label mt-4 text-white">NUMERO DE TELÉFONO</label>
+            <input type="tel" name="phoneNumber" class="form-control" id="phoneNumber" placeholder="03513400712" required>
+        </div>
+        <div class="form-group">
+            <label for="photo" class="form-label mt-4 text-white">FOTO</label>
+            <input type="file" name="photo" class="form-control" id="photo" required>
+        </div>
+        <% if(errorRegistro.length > 0) {%>
+            <div class="form-group has-danger">
+                <label class="form-label mt-4 text-danger" for="email">EMAIL INVALIDO</label>
+                <input type="email" name="email" value="email incorrecto" class="form-control is-invalid" id="inputInvalid" placeholder="coderhouse@gmail.com" required>
+                <div class="invalid-feedback"><%= errorRegistro %></div>
+              </div>
+        <% } else {%>
+            <div class="form-group">
+                <label for="email" class="form-label mt-4 text-white">EMAIL</label>
+                <input type="email" name="email" class="form-control" id="email" placeholder="coderhouse@gmail.com" required>
+            </div>
+        <% } %>  
+        <div class="form-group">
+            <label for="password" class="form-label mt-4 text-white">CONTRASEÑA</label>
+            <input type="password" name="password" class="form-control" id="password" placeholder="******" required>
+        </div>
+        <div class="form-group w-100">
+            <button type="submit" class="btn btn-outline-success mt-3 w-100">REGISTRARSE</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
