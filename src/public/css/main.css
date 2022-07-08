@@ -17,4 +17,10 @@
 .card {
     min-width: 286px !important;
     width: 286px !important;
+    height: 590px;
+}
+
+.btn-cart{
+    width: 100%;
+    margin: 20px auto !important;
 }

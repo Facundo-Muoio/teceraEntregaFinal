@@ -1,38 +1,73 @@
-import arrProducts from "./productos.js"
 
-let containerCards = document.getElementById("container")
+let btnsLess = document.getElementsByClassName("btnLess")
+let btnsAdd = document.getElementsByClassName("btnAdd")
+let btnAddToCart = document.getElementsByClassName("btnAddToCart")
+let cart = document.getElementById("cart")
+let number = 0 
+const arrCart = []
 
-localStorage.setItem("productos", JSON.stringify(arrProducts))
-const productos = JSON.parse(localStorage.getItem("productos"))
 
-productos.forEach(e => {
-    containerCards.innerHTML += `
-    <div class="card bg-primary text-white mb-3" style="max-width: 20rem;">
-    <div class="card-header">${e.genero.toUpperCase()}</div>
-    <div class="card-body">
-        <img  class="imgCards" src=${e.imagen}></img>
-        <h4 class="card-title">${e.nombre}</h4>
-        <h5 class="card-title">${e.autor}</h5>
-        <h5 class="card-title">$ ${e.precio}<h5>
-        <button type="button" class="btn btn-success" id="${e.id}" class="btnAdd">AGREGAR</button>
-    </div>
-`
-})
+let divs = document.getElementsByClassName("containerBtns")
+for(let div of divs){
+    const parentDiv = div.parentElement
+    let id
+    for (let i = 0; i < parentDiv.children.length - 1 ; i++) {
+        if(i == 4 ){
+            id = parentDiv.children[i].textContent
+        } 
+    }
+}
 
-for(let i = 1 ; i <= productos.length ; i++){
-    console.log(i)
-    let btn = document.getElementById(`${i}`)
-    console.log(btn)
+for( let btn of btnsLess){
     btn.addEventListener("click", (e) => {
-        let id = e.target.id
-        if(!productos[id - 1].stock){
-            btn.textContent = "SIN STOCK"
-            btn.setAttribute("disabled", "")
-        } else {
-            productos[id - 1].stock =  productos[id - 1].stock - 1
-            localStorage.setItem("productos", JSON.stringify(productos))
+        let hermano = btn.nextElementSibling
+        if(Number(hermano.textContent) > 1){
+            hermano.textContent = Number(hermano.textContent) - 1
         }
     })
 }
 
-console.log(arrProducts)    
+for( let btn of btnsAdd){
+    btn.addEventListener("click", (e) => {
+        let hermano = btn.previousElementSibling
+        let max = Number(btn.parentElement.previousElementSibling.textContent)
+        if(Number(hermano.textContent) < max){
+            hermano.textContent = Number(hermano.textContent) + 1
+        }
+    })
+}
+
+for( let btn of btnAddToCart){
+    btn.addEventListener("click", (e) => {
+        let nombre = btn.parentElement.firstElementChild.nextElementSibling.textContent
+        let autor = btn.parentElement.firstElementChild.nextElementSibling.nextElementSibling.textContent
+        let precio = btn.parentElement.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.textContent
+        let stock = Number(btn.previousElementSibling.firstElementChild.nextElementSibling.textContent)
+        let id = btn.previousElementSibling.previousElementSibling.previousElementSibling.textContent
+        if(!JSON.parse(sessionStorage.getItem("cart"))){
+            sessionStorage.setItem("cart", JSON.stringify(arrCart))  
+        }
+        let producto = JSON.parse(sessionStorage.getItem("cart")).find(e => e.id === id)
+        if(producto){
+           const arr = JSON.parse(sessionStorage.getItem("cart"))
+           for(let e of arr){
+            if(e.id === producto.id){
+                e.stock = stock
+            }
+           }
+            sessionStorage.setItem("cart", JSON.stringify(arr))   
+        } else {
+            const arr = JSON.parse(sessionStorage.getItem("cart"))
+            arr.push({ nombre, autor, precio, stock, id })
+            sessionStorage.setItem("cart", JSON.stringify(arr))
+        }
+        const arr = JSON.parse(sessionStorage.getItem("cart"))
+        number = 0
+        for (let e of arr){
+            number = number + e.stock
+        }
+        if(number > 0){
+            cart.innerText = `Carrito ${number}`
+        }
+    })
+}

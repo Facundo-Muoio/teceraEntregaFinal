@@ -7,6 +7,7 @@ const passport = require("passport")
 require("./passport/passport")
 const session = require("express-session")
 const flash = require("connect-flash")
+const methodOverride = require("method-override")
 
 //args port y mode
 const { port, mode } = require("./argvs/minimist.js")
@@ -36,9 +37,10 @@ app.use(express.static(path.join(__dirname, "public")))
 app.use(session({
     secret: "secreto",
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: false
 }))
 
+app.use(methodOverride("_method"))
 app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())

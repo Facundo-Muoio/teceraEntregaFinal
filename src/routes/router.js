@@ -1,13 +1,16 @@
 const { Router } = require("express")
 const router = Router()
 const User = require("../model/user")
+const Producto = require("../model/producto")
+const Cart = require("../model/cart")
 const passport = require("passport")
 const transporter  = require("../nodemailer/nodemailer")
 const logger = require("../logs/logger")
+const updateStock = require("../controllers/updateStock")
+const { sendMessageWp, sendMessage } = require("../twilio/twilio")
 
 router.get("/", async (req, res) => {
-    const users = await User.find({})
-    res.render("index", {users})
+    res.render("index")
 })
 
 router.get("/registro", (req, res) => {
@@ -68,14 +71,46 @@ router.get("/perfil", isAuthenticated, async (req, res) => {
     res.render("perfil", { user })    
 })
 
-router.get("/productos", isAuthenticated, (req, res) => {
-    res.render("productos")
+router.get("/productos", isAuthenticated, async (req, res) => {
+    const productos = await Producto.find({})
+    res.render("productos", { productos })
 })
 
 router.get("/carrito", isAuthenticated, (req, res) => {
     res.render("carrito")
 })
 
+router.get("/comprar", isAuthenticated, async (req, res) => {
+    const user = await User.find({ email: req.session.email})
+    const cart = req.session.cart
+    const celular = user[0].phoneNumber
+    updateStock(cart)
+    await transporter.sendMail({
+        from: `"Nuevo pedido de ${user[0].name}" <facundo.muoio@gmail.com>`, // sender address
+        to: "facundo.muoio@gmail.com", // list of receivers
+        subject: `NUEVO PEDIDO DE ${user[0].name}, email: ${user[0].email}`, // Subject line
+        html: `
+        <p>Se registro un nuevo pedido</p>
+        <p>El usuario ${user[0].name} realizo el siguiente pedido: </p>
+        <ul>
+            <li>${cart.nombre}</li>
+            <li>${cart.stock}</li>
+            <li>${cart.precio}</li>
+        </ul>
+        `, // html body
+      });
+    sendMessageWp(user, cart)
+    sendMessage(celular)
+    res.redirect("/", {user, cart})
+})
+
+router.post("/comprar", isAuthenticated, async (req, res) => {
+    const { nombre, autor, stock, precio, id } = req.body
+    const carrito = new Cart({nombre, autor, stock, precio, id})
+    req.session.cart = {nombre, autor, stock, precio, id}
+    await carrito.save()
+    res.redirect("/comprar")
+})
 
 function isAuthenticated(req, res, next){
     if(req.isAuthenticated()) {

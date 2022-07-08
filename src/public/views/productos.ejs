@@ -13,7 +13,28 @@
 <body>
     <%- include('../partials/navbar'); %>
     <div id="container">
+        <% if(productos) {%>
+           <% productos.forEach(e => {%>
+            <div class="card bg-primary text-white mb-3" style="max-width: 20rem;">
+                <div class="card-header"><%= e.genero.toUpperCase() %></div>
+                <div class="card-body">
+                    <img  class="imgCards" src="<%= e.imagen %>"></img>
+                    <h4 class="card-title"><%= e.nombre %></h4>
+                    <h5 class="card-title"><%= e.autor %></h5>
+                    <h5 class="card-title">$ <%= e.precio %></h5>
+                    <p hidden><%= e._id%></p>
+                    <p hidden><%= e.stock%></p>
+                    <div class="containerBtns mb-3" id="container<%=e._id%>">
+                        <button type="button" class="btnLess btn btn-success me-2">-</button>
+                        <span><%= e.stock%></span>
+                        <button type="button" class="btnAdd btn btn-success ms-2">+</button>
+                    </div>
+                    <button type="button" class="btn btn-success btnAddToCart">AGREGAR</button>
+                </div>
+            </div>
+            <% }) %>
+        <% } %>
     </div>
-<script src="../js/main.js" type="module"></script>
+<script src="../js/main.js"></script>
 </body>
 </html>
