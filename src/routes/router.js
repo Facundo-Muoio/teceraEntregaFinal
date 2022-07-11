@@ -101,7 +101,7 @@ router.get("/comprar", isAuthenticated, async (req, res) => {
       });
     sendMessageWp(user, cart)
     sendMessage(celular)
-    res.redirect("/", {user, cart})
+    res.redirect("/")
 })
 
 router.post("/comprar", isAuthenticated, async (req, res) => {
