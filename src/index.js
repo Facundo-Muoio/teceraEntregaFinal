@@ -60,12 +60,6 @@ app.use((req, res, next) => {
 //routes
 app.use(router)
 
-//probando logs
-// logger.info("text info")
-// logger.warn("text warn")
-// logger.error("text err")
-// logger.error(new Error("something went wrong"))
-
 //coneccting to db
 connectDB()
 

@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer")
+const logger = require("../logs/logger")
 
 let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -11,7 +12,7 @@ let transporter = nodemailer.createTransport({
 })
 
 transporter.verify().then(() => {
-    console.log("Listo para enviar emails")
+    logger.info("Listo para enviar emails")
 }) 
 
 

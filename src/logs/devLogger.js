@@ -13,6 +13,11 @@ function devLogger(){
             logFormat
         ),
         transports: [
+            new transports.File({
+                maxsize: 5120000,
+                maxFiles: 5,
+                filename: `${__dirname}/logs.log`
+            }),
             new transports.Console()
         ]
     })

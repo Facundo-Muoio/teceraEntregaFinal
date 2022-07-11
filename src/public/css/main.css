@@ -21,6 +21,33 @@
 }
 
 .btn-cart{
+    width: 100vw;
+    margin: 20px auto;  
+}
+
+.containerProfile {
+    margin: 80px auto;
+    width: 50vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 10px 10px;
+}
+
+.h1Profile{
+    text-align: center;
+    width: 50vw;
+    margin: 80px auto;
+}
+
+.divImgProfile{
+    width: 50%;
+    height: auto;
+}
+
+.imgProfile{
+    background-size: cover;
     width: 100%;
-    margin: 20px auto !important;
 }
