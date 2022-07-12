@@ -22,6 +22,7 @@ router.post("/registro", passport.authenticate("registro", {
     passReqToCallback: true
     }), async (req, res) => {
         const {name, address, years, email, phoneNumber, password} = req.body
+        req.session.email = email
         const photo = req.file
         await transporter.sendMail({
             from: '"Nuevo usuario registrado" <facundo.muoio@gmail.com>', // sender address
