@@ -1,5 +1,5 @@
 const accountSid = "AC1187f7f8e3b084d1202523a35f5e79fc"; 
-const authToken = "f2e1743b15e527c5d8e32a6e9e9e5b74"; 
+const authToken = "341f6ba09c932ca5cb9fd4725838ba52"; 
 const client = require('twilio')(accountSid, authToken); 
 
 function sendMessageWp(user, cart){
